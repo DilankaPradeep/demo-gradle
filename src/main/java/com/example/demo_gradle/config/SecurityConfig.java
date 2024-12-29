@@ -10,21 +10,31 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 public class SecurityConfig {
 
-    private final CorsFilter corsFilter;
+//    private final CorsFilter corsFilter;
+//
+//    public SecurityConfig(CorsFilter corsFilter) {
+//        this.corsFilter = corsFilter;
+//    }
 
-    public SecurityConfig(CorsFilter corsFilter) {
-        this.corsFilter = corsFilter;
-    }
 
+//    @Bean
+//    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+//        http
+//                .addFilterBefore(corsFilter, CorsFilter.class)
+//                .csrf(AbstractHttpConfigurer::disable)
+//                .securityMatcher("/", "/public/**", "/static/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**","/swagger-ui.html","/auth/**", "/admin/**")
+//                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
+//        return http.build();
+//
+//    }
 
     @Bean
-    public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
+    public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
-                .addFilterBefore(corsFilter, CorsFilter.class)
-                .csrf(AbstractHttpConfigurer::disable)
-                .securityMatcher("/", "/public/**", "/static/**", "/v3/api-docs/**", "/swagger-resources/**", "/webjars/**","/swagger-ui.html","/auth/**", "/admin/**")
-                .authorizeHttpRequests(auth -> auth.anyRequest().permitAll());
-        return http.build();
+                .cors() // Enable CORS
+                .and()
+                .csrf().disable(); // Disable CSRF for simplicity
 
+        return http.build();
     }
 }
